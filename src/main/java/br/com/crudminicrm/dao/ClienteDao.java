@@ -116,4 +116,15 @@ public class ClienteDao {
         }
 
     }
+
+    public boolean excluir(int id) throws SQLException {
+        String sql = "DELETE FROM cliente WHERE id_cliente = ?";
+
+        try (Connection conn = Conexao.getConexao();
+            PreparedStatement ps = conn.prepareStatement(sql)){
+
+            ps.setInt(1, id);
+            return ps.executeUpdate() > 0;
+        }
+    }
 }
