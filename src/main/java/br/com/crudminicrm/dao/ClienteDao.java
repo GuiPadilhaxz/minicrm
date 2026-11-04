@@ -98,4 +98,22 @@ public class ClienteDao {
         }
         return clientes;
     }
+    public boolean atualizar(Cliente cliente) throws SQLException {
+        if (cliente.getId() == null){
+            throw new IllegalArgumentException("Não é possivel atualizar um cliente que não existe");
+        }
+
+        String sql = "UPDATE cliente SET nome_cliente = ? , cpf_cliente = ?, email_cliente = ?, telefone_cliente = ? WHERE id_cliente = ?";
+
+        try (Connection conn = Conexao.getConexao();
+            PreparedStatement ps = conn.prepareStatement(sql)){
+            ps.setString(1, cliente.getNome());
+            ps.setString(2, cliente.getCpf());
+            ps.setString(3, cliente.getEmail());
+            ps.setString(4, cliente.getTelefone());
+            ps.setInt(5, cliente.getId());
+            return ps.executeUpdate() > 0;
+        }
+
+    }
 }
